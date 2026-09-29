@@ -1,3 +1,240 @@
-:root {
-    --
+/* Reset Básico */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+body {
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+/* ================= HEADER ================= */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 30px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+header img {
+  height: 36px;
+  width: auto;
+  margin-right: 12px;
+}
+
+header h1 {
+  font-size: 1.4rem;
+  color: #1a202c;
+  flex: 1; /* Empurra os botões para a direita */
+  display: flex;
+  align-items: center;
+}
+
+/* Botões do Header (Login / Cadastro) */
+header button {
+  padding: 8px 18px;
+  border-radius: 20px;
+  border: 1px solid #ff6b00;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: 10px;
+}
+
+/* Botão Login */
+header button:nth-of-type(1) {
+  background: transparent;
+  color: #ff6b00;
+}
+
+header button:nth-of-type(1):hover {
+  background-color: #fff4ed;
+}
+
+/* Botão Cadastro */
+header button:nth-of-type(2) {
+  background: #ff6b00;
+  color: #ffffff;
+}
+
+header button:nth-of-type(2):hover {
+  background-color: #e05e00;
+}
+
+/* ================= LAYOUT PRINCIPAL ================= */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Container do conteúdo abaixo do header */
+.container {
+  display: flex;
+  padding: 25px;
+  gap: 25px;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ================= SIDEBAR / ASIDE ================= */
+aside {
+  width: 280px;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  height: fit-content;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  flex-shrink: 0;
+}
+
+aside h2 {
+  font-size: 1.1rem;
+  color: #2d3748;
+  margin-bottom: 15px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #ff6b00;
+}
+
+/* Botão "Todos os negócios" */
+aside > button {
+  width: 100%;
+  text-align: left;
+  padding: 10px 12px;
+  background: #f7fafc;
+  border: 1px solid #edf2f7;
+  border-radius: 8px;
+  font-weight: 600;
+  color: #ff6b00;
+  cursor: pointer;
+  margin-bottom: 12px;
+  transition: background 0.2s;
+}
+
+aside > button:hover {
+  background: #edf2f7;
+}
+
+/* Estrutura de Sanfona (details/summary) */
+details {
+  margin-bottom: 6px;
+}
+
+summary {
+  padding: 8px 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #4a5568;
+  border-radius: 6px;
+  list-style: none; /* Remove a seta padrão em navegadores modernos */
+  position: relative;
+  transition: background 0.2s;
+  text-transform: capitalize;
+}
+
+summary::-webkit-details-marker {
+  display: none; /* Remove a seta padrão no Safari/Chrome antigo */
+}
+
+/* Seta customizada */
+summary::after {
+  content: '▸';
+  position: absolute;
+  right: 10px;
+  color: #a0aec0;
+  transition: transform 0.2s;
+}
+
+details[open] > summary::after {
+  transform: rotate(90deg);
+}
+
+summary:hover {
+  background-color: #f7fafc;
+  color: #ff6b00;
+}
+
+/* Sub-níveis de menus (Aninhamento) */
+details details {
+  margin-left: 12px;
+  border-left: 2px solid #edf2f7;
+  padding-left: 6px;
+}
+
+details details summary {
+  font-weight: 500;
+  font-size: 0.88rem;
+}
+
+/* Botões finais das categorias */
+details button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 6px 12px 6px 20px;
+  font-size: 0.85rem;
+  color: #718096;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+details button:hover {
+  color: #ff6b00;
+  background-color: #fff4ed;
+}
+
+/* ================= ÁREA PRINCIPAL / CARDS (Futuro) ================= */
+main {
+  flex: 1;
+}
+
+.grid-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    padding: 15px;
+  }
+
+  aside {
+    width: 100%;
+  }
+
+  header h1 {
+    font-size: 1.1rem;
+  }
 }
