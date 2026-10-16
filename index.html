@@ -1,176 +1,1844 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="icon" type="image/png" href="img's/ponteiro-de-mapa.png">
-        <link rel="stylesheet" href="css/style.css">
-        <title>Descubra Cascavel</title>
+        
+        <title>VitrineDigital - Portal de Anúncios e Serviços Locais</title>
+        
+        <!-- Importação de ícones (FontAwesome) e fontes (Google Fonts Inter) -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+        <style>
+            /* ==========================================================================
+               VARIÁVEIS DE CORES E CONFIGURAÇÕES GLOBAIS (Design System)
+               ========================================================================== */
+            :root {
+                --primary: #2563eb;
+                --primary-hover: #1d4ed8;
+                --secondary: #0f172a;
+                --accent: #10b981;
+                --accent-hover: #059669;
+                --bg-body: #f8fafc;
+                --bg-card: #ffffff;
+                --text-main: #1e293b;
+                --text-muted: #64748b;
+                --border-color: #e2e8f0;
+                --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+                --shadow-md: 0 4px 12px rgba(15,23,42,0.08);
+                --shadow-lg: 0 12px 24px -4px rgba(15,23,42,0.15);
+                --radius-md: 12px;
+                --radius-lg: 18px;
+                --radius-full: 9999px;
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            html {
+                scroll-behavior: smooth;
+                font-family: 'Inter', sans-serif;
+                background-color: var(--bg-body);
+                color: var(--text-main);
+                line-height: 1.5;
+            }
+
+            /* ==========================================================================
+               CABEÇALHO (Header & Navegação Fixa)
+               ========================================================================== */
+            header {
+                position: sticky;
+                top: 0;
+                z-index: 1000;
+                background-color: rgba(255, 255, 255, 0.92);
+                backdrop-filter: blur(10px);
+                border-bottom: 1px solid var(--border-color);
+                box-shadow: var(--shadow-sm);
+            }
+
+            .header-container {
+                max-width: 1280px;
+                margin: 0 auto;
+                padding: 1rem 1.5rem;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 1rem;
+            }
+
+            .logo {
+                display: flex;
+                align-items: center;
+                gap: 0.6rem;
+                text-decoration: none;
+                color: var(--secondary);
+                font-weight: 800;
+                font-size: 1.4rem;
+                letter-spacing: -0.5px;
+            }
+
+            .logo-icon {
+                width: 40px;
+                height: 40px;
+                background: linear-gradient(135deg, var(--primary), var(--accent));
+                color: #fff;
+                border-radius: var(--radius-md);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.2rem;
+                box-shadow: 0 4px 10px rgba(37,99,235,0.3);
+            }
+
+            .nav-menu {
+                display: flex;
+                align-items: center;
+                gap: 1.5rem;
+                list-style: none;
+            }
+
+            .nav-link {
+                text-decoration: none;
+                color: var(--text-main);
+                font-weight: 500;
+                font-size: 0.95rem;
+                transition: color 0.2s ease;
+            }
+
+            .nav-link:hover {
+                color: var(--primary);
+            }
+
+            .nav-btn {
+                background-color: var(--primary);
+                color: #ffffff !important;
+                padding: 0.6rem 1.2rem;
+                border-radius: var(--radius-full);
+                font-weight: 600;
+                transition: all 0.2s ease;
+                box-shadow: 0 2px 8px rgba(37,99,235,0.25);
+            }
+
+            .nav-btn:hover {
+                background-color: var(--primary-hover);
+                transform: translateY(-1px);
+            }
+
+            /* ==========================================================================
+               SEÇÃO HERO (Apresentação Principal - Sem Barra de Pesquisa)
+               ========================================================================== */
+            .hero {
+                background: linear-gradient(135deg, var(--secondary) 0%, #1e293b 100%);
+                color: #ffffff;
+                padding: 4rem 1.5rem 5rem;
+                text-align: center;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .hero::before {
+                content: '';
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: radial-gradient(circle, rgba(37,99,235,0.15) 0%, transparent 60%);
+                pointer-events: none;
+            }
+
+            .hero-content {
+                max-width: 800px;
+                margin: 0 auto;
+                position: relative;
+                z-index: 2;
+            }
+
+            .hero-badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+                background: rgba(255, 255, 255, 0.1);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                padding: 0.4rem 1rem;
+                border-radius: var(--radius-full);
+                font-size: 0.85rem;
+                color: #38bdf8;
+                margin-bottom: 1.5rem;
+            }
+
+            .hero h1 {
+                font-size: 2.8rem;
+                font-weight: 800;
+                line-height: 1.2;
+                margin-bottom: 1rem;
+                letter-spacing: -1px;
+            }
+
+            .hero p {
+                font-size: 1.15rem;
+                color: #94a3b8;
+                margin-bottom: 2rem;
+                font-weight: 300;
+            }
+
+            /* ==========================================================================
+               FILTRO POR CATEGORIAS (Botões Pill interativos controlados via JS)
+               ========================================================================== */
+            .container {
+                max-width: 1280px;
+                margin: 0 auto;
+                padding: 3rem 1.5rem;
+            }
+
+            .section-header {
+                text-align: center;
+                margin-bottom: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+                font-weight: 700;
+                color: var(--secondary);
+                margin-bottom: 0.5rem;
+            }
+
+            .section-subtitle {
+                color: var(--text-muted);
+                font-size: 1rem;
+            }
+
+            .category-pills {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.6rem;
+                margin-bottom: 3rem;
+            }
+
+            .pill-label {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+                padding: 0.6rem 1.2rem;
+                background-color: #ffffff;
+                border: 1px solid var(--border-color);
+                border-radius: var(--radius-full);
+                font-size: 0.9rem;
+                font-weight: 500;
+                color: var(--text-main);
+                cursor: pointer;
+                transition: all 0.2s ease;
+                box-shadow: var(--shadow-sm);
+                user-select: none;
+            }
+
+            .pill-label:hover {
+                border-color: var(--primary);
+                color: var(--primary);
+                transform: translateY(-2px);
+            }
+
+            /* Estado ativo do botão de categoria controlado via JavaScript */
+            .pill-label.active {
+                background-color: var(--primary);
+                color: #ffffff;
+                border-color: var(--primary);
+                box-shadow: 0 4px 12px rgba(37,99,235,0.3);
+            }
+
+            /* ==========================================================================
+               GRADE DE ANÚNCIOS (Cards responsivos)
+               ========================================================================== */
+            .ads-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+                gap: 1.5rem;
+                justify-content: center;
+            }
+
+            .card {
+                background-color: var(--bg-card);
+                border: 1px solid var(--border-color);
+                border-radius: var(--radius-md);
+                padding: 1rem;
+                box-shadow: var(--shadow-sm);
+                /* Transição suave também aplicada para o filtro dinâmico do JavaScript */
+                transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, transform 0.3s ease;
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                aspect-ratio: 9 / 5;
+                width: 100%;
+                max-width: 360px;
+                margin: 0 auto;
+                overflow: hidden;
+            }
+
+            .card:hover {
+                transform: translateY(-5px);
+                box-shadow: var(--shadow-lg);
+                border-color: var(--primary);
+            }
+
+            .card-header {
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+            }
+
+            .card-img {
+                width: 52px;
+                height: 52px;
+                border-radius: 10px;
+                object-fit: cover;
+                border: 1px solid var(--border-color);
+                flex-shrink: 0;
+                background-color: #f1f5f9;
+            }
+
+            .card-header-text {
+                overflow: hidden;
+            }
+
+            .card-title {
+                font-size: 1rem;
+                font-weight: 700;
+                color: var(--secondary);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .card-badge {
+                display: inline-block;
+                font-size: 0.7rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                padding: 0.15rem 0.5rem;
+                border-radius: 4px;
+                background-color: #eff6ff;
+                color: var(--primary);
+                margin-top: 0.15rem;
+            }
+
+            .card-body {
+                margin: 0.4rem 0;
+            }
+
+            .card-desc {
+                font-size: 0.82rem;
+                color: var(--text-muted);
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                line-height: 1.35;
+            }
+
+            .card-footer {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                border-top: 1px dashed var(--border-color);
+                padding-top: 0.5rem;
+                margin-top: 0.2rem;
+            }
+
+            .card-location {
+                font-size: 0.75rem;
+                color: var(--text-muted);
+                display: flex;
+                align-items: center;
+                gap: 0.3rem;
+            }
+
+            .card-btn {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.3rem;
+                font-size: 0.8rem;
+                font-weight: 600;
+                color: var(--primary);
+                text-decoration: none;
+                padding: 0.3rem 0.6rem;
+                border-radius: 6px;
+                background-color: #f0f9ff;
+                transition: all 0.2s ease;
+            }
+
+            .card-btn:hover {
+                background-color: var(--primary);
+                color: #ffffff;
+            }
+
+            /* ==========================================================================
+               MODAIS DETALHADOS (Exibidos via seletor :target do CSS)
+               ========================================================================== */
+            .modal-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background-color: rgba(15, 23, 42, 0.75);
+                backdrop-filter: blur(6px);
+                z-index: 2000;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 1.5rem;
+            }
+
+            .modal-overlay:target {
+                opacity: 1;
+                pointer-events: auto;
+            }
+
+            .modal-card {
+                background-color: #ffffff;
+                width: 100%;
+                max-width: 650px;
+                max-height: 90vh;
+                border-radius: var(--radius-lg);
+                overflow-y: auto;
+                box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+                position: relative;
+                animation: modalSlide 0.3s ease-out forwards;
+            }
+
+            @keyframes modalSlide {
+                from { transform: translateY(30px); opacity: 0; }
+                to { transform: translateY(0); opacity: 1; }
+            }
+
+            .modal-close {
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+                width: 36px;
+                height: 36px;
+                background-color: #f1f5f9;
+                color: var(--text-main);
+                border-radius: var(--radius-full);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-decoration: none;
+                font-size: 1.2rem;
+                font-weight: 700;
+                transition: all 0.2s ease;
+                z-index: 10;
+            }
+
+            .modal-close:hover {
+                background-color: #e2e8f0;
+                color: var(--secondary);
+            }
+
+            .modal-header-bg {
+                height: 120px;
+                background: linear-gradient(135deg, var(--primary), var(--secondary));
+                position: relative;
+            }
+
+            .modal-body {
+                padding: 1.5rem 2rem 2rem;
+                position: relative;
+            }
+
+            .modal-avatar {
+                width: 80px;
+                height: 80px;
+                border-radius: 16px;
+                border: 4px solid #ffffff;
+                object-fit: cover;
+                position: absolute;
+                top: -40px;
+                left: 2rem;
+                box-shadow: var(--shadow-md);
+                background: #fff;
+            }
+
+            .modal-title-area {
+                margin-top: 2.5rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .modal-title {
+                font-size: 1.6rem;
+                font-weight: 800;
+                color: var(--secondary);
+            }
+
+            .modal-meta {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 1rem;
+                margin-top: 0.5rem;
+                font-size: 0.85rem;
+                color: var(--text-muted);
+            }
+
+            .modal-meta-item {
+                display: flex;
+                align-items: center;
+                gap: 0.4rem;
+            }
+
+            .modal-section {
+                margin-bottom: 1.5rem;
+            }
+
+            .modal-section-title {
+                font-size: 1rem;
+                font-weight: 700;
+                color: var(--secondary);
+                margin-bottom: 0.5rem;
+                border-bottom: 2px solid #f1f5f9;
+                padding-bottom: 0.3rem;
+            }
+
+            .modal-gallery {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0.5rem;
+                margin-top: 0.75rem;
+            }
+
+            .modal-gallery img {
+                width: 100%;
+                height: 90px;
+                object-fit: cover;
+                border-radius: var(--radius-md);
+            }
+
+            .modal-actions {
+                display: flex;
+                gap: 1rem;
+                margin-top: 2rem;
+                flex-wrap: wrap;
+            }
+
+            .btn-whatsapp {
+                flex: 1;
+                background-color: var(--accent);
+                color: #ffffff;
+                text-decoration: none;
+                padding: 0.8rem 1.2rem;
+                border-radius: var(--radius-md);
+                font-weight: 600;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.5rem;
+                transition: background 0.2s ease;
+                box-shadow: 0 4px 10px rgba(16,185,129,0.3);
+            }
+
+            .btn-whatsapp:hover {
+                background-color: var(--accent-hover);
+            }
+
+            .btn-outline {
+                background-color: transparent;
+                color: var(--text-main);
+                border: 1px solid var(--border-color);
+                text-decoration: none;
+                padding: 0.8rem 1.2rem;
+                border-radius: var(--radius-md);
+                font-weight: 600;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.5rem;
+                transition: all 0.2s ease;
+            }
+
+            .btn-outline:hover {
+                background-color: #f1f5f9;
+            }
+
+            /* ==========================================================================
+               SEÇÃO "ANUNCIE CONOSCO" & FORMULÁRIO
+               ========================================================================== */
+            .advertise-section {
+                background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+                border-radius: var(--radius-lg);
+                padding: 3rem 2rem;
+                margin: 4rem auto;
+                max-width: 1100px;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 3rem;
+                align-items: center;
+            }
+
+            .advertise-info h2 {
+                font-size: 2.2rem;
+                font-weight: 800;
+                color: var(--secondary);
+                line-height: 1.2;
+                margin-bottom: 1rem;
+            }
+
+            .advertise-info p {
+                color: var(--text-muted);
+                margin-bottom: 1.5rem;
+                font-size: 1rem;
+            }
+
+            .benefit-list {
+                list-style: none;
+                margin-bottom: 2rem;
+            }
+
+            .benefit-item {
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+                margin-bottom: 0.75rem;
+                font-weight: 500;
+            }
+
+            .benefit-item i {
+                color: var(--accent);
+                font-size: 1.1rem;
+            }
+
+            .ad-form {
+                background: #ffffff;
+                padding: 2rem;
+                border-radius: var(--radius-md);
+                box-shadow: var(--shadow-md);
+            }
+
+            .form-group {
+                margin-bottom: 1rem;
+            }
+
+            .form-label {
+                display: block;
+                font-size: 0.85rem;
+                font-weight: 600;
+                color: var(--text-main);
+                margin-bottom: 0.3rem;
+            }
+
+            .form-control {
+                width: 100%;
+                padding: 0.75rem 1rem;
+                border: 1px solid var(--border-color);
+                border-radius: 8px;
+                font-family: inherit;
+                font-size: 0.95rem;
+                outline: none;
+                transition: border-color 0.2s ease;
+            }
+
+            .form-control:focus {
+                border-color: var(--primary);
+                box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+            }
+
+            .btn-submit {
+                width: 100%;
+                background-color: var(--primary);
+                color: #ffffff;
+                border: none;
+                padding: 0.85rem;
+                border-radius: 8px;
+                font-weight: 700;
+                font-size: 1rem;
+                cursor: pointer;
+                transition: background 0.2s ease;
+                margin-top: 0.5rem;
+            }
+
+            .btn-submit:hover {
+                background-color: var(--primary-hover);
+            }
+
+            /* ==========================================================================
+               RODAPÉ (Footer)
+               ========================================================================== */
+            footer {
+                background-color: var(--secondary);
+                color: #ffffff;
+                padding: 4rem 1.5rem 2rem;
+                margin-top: 4rem;
+            }
+
+            .footer-grid {
+                max-width: 1280px;
+                margin: 0 auto;
+                display: grid;
+                grid-template-columns: 2fr repeat(3, 1fr);
+                gap: 2.5rem;
+                margin-bottom: 3rem;
+            }
+
+            .footer-brand p {
+                color: #94a3b8;
+                margin-top: 1rem;
+                font-size: 0.9rem;
+                max-width: 320px;
+            }
+
+            .footer-title {
+                font-size: 1.05rem;
+                font-weight: 700;
+                margin-bottom: 1.2rem;
+                color: #ffffff;
+            }
+
+            .footer-links {
+                list-style: none;
+            }
+
+            .footer-links li {
+                margin-bottom: 0.6rem;
+            }
+
+            .footer-links a {
+                color: #94a3b8;
+                text-decoration: none;
+                font-size: 0.9rem;
+                transition: color 0.2s ease;
+            }
+
+            .footer-links a:hover {
+                color: #ffffff;
+            }
+
+            .social-icons {
+                display: flex;
+                gap: 0.75rem;
+                margin-top: 1.2rem;
+            }
+
+            .social-btn {
+                width: 36px;
+                height: 36px;
+                background: rgba(255, 255, 255, 0.08);
+                color: #fff;
+                border-radius: var(--radius-full);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-decoration: none;
+                transition: background 0.2s ease;
+            }
+
+            .social-btn:hover {
+                background: var(--primary);
+            }
+
+            .footer-bottom {
+                max-width: 1280px;
+                margin: 0 auto;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+                padding-top: 1.5rem;
+                text-align: center;
+                color: #64748b;
+                font-size: 0.85rem;
+            }
+
+            /* ==========================================================================
+               DESIGN RESPONSIVO (Media Queries)
+               ========================================================================== */
+            @media (max-width: 900px) {
+                .advertise-section {
+                    grid-template-columns: 1fr;
+                }
+                .footer-grid {
+                    grid-template-columns: 1fr 1fr;
+                }
+            }
+
+            @media (max-width: 600px) {
+                .header-container {
+                    flex-direction: column;
+                    align-items: stretch;
+                }
+                .nav-menu {
+                    justify-content: space-between;
+                    font-size: 0.85rem;
+                }
+                .hero h1 {
+                    font-size: 2rem;
+                }
+                .footer-grid {
+                    grid-template-columns: 1fr;
+                }
+                .card {
+                    max-width: 100%;
+                }
+            }
+        </style>
     </head>
+    <body id="inicio">
 
-    <body>
-
+        <!-- CABEÇALHO DA PÁGINA -->
         <header>
-            <img src="img's/ponteiro-de-mapa.png" alt="ponteiro de mapa">
-            <h1>Descubra Cascavel</h1>
-
-            <button>login</button>
-            <button>cadastro</button>
+            <div class="header-container">
+                <a href="#inicio" class="logo">
+                    <div class="logo-icon">
+                        <i class="fa-solid fa-store"></i>
+                    </div>
+                    <span>VitrineDigital</span>
+                </a>
+                <nav>
+                    <ul class="nav-menu">
+                        <li><a href="#inicio" class="nav-link">Início</a></li>
+                        <li><a href="#categorias" class="nav-link">Categorias</a></li>
+                        <li><a href="#anunciantes" class="nav-link">Anunciantes</a></li>
+                        <li><a href="#contato" class="nav-link">Contato</a></li>
+                        <li><a href="#anuncie" class="nav-link nav-btn">Anuncie Aqui</a></li>
+                    </ul>
+                </nav>
+            </div>
         </header>
 
-        <div class="conteiner">
+        <!-- SEÇÃO HERO (Apresentação Principal) -->
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fa-solid fa-sparkles"></i> Sua Vitrine Comercial Online
+                </div>
+                <h1>Ache tudo o que precisa perto de você</h1>
+                <p>Conectando os melhores restaurantes, serviços, comércios e profissionais da cidade em um único lugar visual e moderno.</p>
+            </div>
+        </section>
 
-            <aside>
-                <h2>Categorias</h2>
+        <!-- SEÇÃO PRINCIPAL DE CONTEÚDO E FILTROS -->
+        <main class="container" id="categorias">
+            <div class="section-header">
+                <h2 class="section-title">Explore por Categorias</h2>
+                <p class="section-subtitle">Filtre os melhores estabelecimentos da cidade com um clique</p>
+            </div>
 
-                <button>Todos os negócios</button>
-                
-                <details>
-                    <summary>comercios e varejo</summary>
-                    
-                    <details>
-                        <summary>alimentação</summary>
+            <!-- Botões interativos de Filtro por Categoria (Controlados por Front-End JavaScript) -->
+            <div class="category-pills">
+                <button type="button" class="pill-label active" data-filter="all">
+                    <i class="fa-solid fa-grid-2"></i> Todas
+                </button>
+                <button type="button" class="pill-label" data-filter="cat-alimentacao">
+                    <i class="fa-solid fa-utensils"></i> Alimentação
+                </button>
+                <button type="button" class="pill-label" data-filter="cat-automoveis">
+                    <i class="fa-solid fa-car"></i> Automóveis
+                </button>
+                <button type="button" class="pill-label" data-filter="cat-beleza">
+                    <i class="fa-solid fa-scissors"></i> Beleza & Estética
+                </button>
+                <button type="button" class="pill-label" data-filter="cat-construcao">
+                    <i class="fa-solid fa-helmet-safety"></i> Construção
+                </button>
+                <button type="button" class="pill-label" data-filter="cat-eletronicos">
+                    <i class="fa-solid fa-laptop"></i> Eletrônicos & Info
+                </button>
+            </div>
 
-                        <button>Restaurantes</button>
-                        <button>bares</button>
-                        <button>Lanchonetes</button>
-                        <button>Padarias</button>
-                        <button>Pizzarias</button>
-                        <button>Supermercados</button>
-                    </details>
+            <div class="section-header" id="anunciantes">
+                <h2 class="section-title">Anúncios em Destaque</h2>
+            </div>
 
-                    <details>
-                        <summary>Moda e Acessórios</summary>
+            <!-- GRADE DE CARTÕES DOS ANUNCIANTES -->
+            <div class="ads-grid">
 
-                        <button>Lojas de roupas</button>
-                        <button>Calçados</button>
-                        <button>Joalherias</button>
-                        <button>Brechós</button>
-                    </details>
+                <!-- CATEGORIA: ALIMENTAÇÃO -->
+                <article class="card cat-alimentacao">
+                    <div class="card-header">
+                        <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=120" alt="Sabor Caseiro" class="card-img" onerror="this.src='https://placehold.co/100x100/2563eb/ffffff?text=Restaurante'">
+                        <div class="card-header-text">
+                            <h3 class="card-title">Sabor Caseiro</h3>
+                            <span class="card-badge">Alimentação</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-desc">Comida típica feita no fogão a lenha, marmitex executiva e self-service de qualidade.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-location"><i class="fa-solid fa-location-dot"></i> Centro</span>
+                        <a href="#modal-sabor-caseiro" class="card-btn">Ver Anúncio <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </article>
 
-                    <details>
-                        <summary>casa e decoração</summary>
+                <article class="card cat-alimentacao">
+                    <div class="card-header">
+                        <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=120" alt="Bella Pizza" class="card-img" onerror="this.src='https://placehold.co/100x100/2563eb/ffffff?text=Pizza'">
+                        <div class="card-header-text">
+                            <h3 class="card-title">Bella Pizza Artesanal</h3>
+                            <span class="card-badge">Alimentação</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-desc">Pizzas com massa de fermentação natural, ingredientes selecionados e entrega rápida.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-location"><i class="fa-solid fa-location-dot"></i> Bairro Jardim</span>
+                        <a href="#modal-bella-pizza" class="card-btn">Ver Anúncio <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </article>
 
-                        <button>móveis</button>
-                        <button>Materias de construção</button>
-                        <button>Floriculturas</button>
-                        <button>Artigos para o lar</button>
-                    </details>
+                <article class="card cat-alimentacao">
+                    <div class="card-header">
+                        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=120" alt="Burger Prime" class="card-img" onerror="this.src='https://placehold.co/100x100/2563eb/ffffff?text=Burger'">
+                        <div class="card-header-text">
+                            <h3 class="card-title">Burger Prime Grill</h3>
+                            <span class="card-badge">Alimentação</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-desc">Hambúrgueres artesanais grelhados no fogo forte, molhos especiais e batatas rústicas.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-location"><i class="fa-solid fa-location-dot"></i> Av. Brasil</span>
+                        <a href="#modal-burger-prime" class="card-btn">Ver Anúncio <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </article>
 
-                    <details>
-                        <summary>Eletrônicos e Tecnologia</summary>
+                <article class="card cat-alimentacao">
+                    <div class="card-header">
+                        <img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=120" alt="Sakura Sushi" class="card-img" onerror="this.src='https://placehold.co/100x100/2563eb/ffffff?text=Sushi'">
+                        <div class="card-header-text">
+                            <h3 class="card-title">Sakura Sushi Bar</h3>
+                            <span class="card-badge">Alimentação</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-desc">Combinados de culinária japonesa, sushis frescos, temakis e pratos quentes asiáticos.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-location"><i class="fa-solid fa-location-dot"></i> Alto Alegre</span>
+                        <a href="#modal-sakura-sushi" class="card-btn">Ver Anúncio <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </article>
 
-                        <button>Lojas de informática</button>
-                        <button>Celulares</button>
-                        <button>Assistências técnicas</button>
-                    </details>
+                <article class="card cat-alimentacao">
+                    <div class="card-header">
+                        <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=120" alt="Padaria Pão D'Oro" class="card-img" onerror="this.src='https://placehold.co/100x100/2563eb/ffffff?text=Padaria'">
+                        <div class="card-header-text">
+                            <h3 class="card-title">Padaria Pão D'Oro</h3>
+                            <span class="card-badge">Alimentação</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-desc">Pães quentinhos a toda hora, cafés especiais, tortas doces, salgados e buffet de café da manhã.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-location"><i class="fa-solid fa-location-dot"></i> Vila Nova</span>
+                        <a href="#modal-pao-doro" class="card-btn">Ver Anúncio <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </article>
 
-                </details>
-                
-                <details>
-                    <summary>Serviços</summary>
-                    
-                    <details>
-                        <summary>Saúde e Bem-Estar</summary>
+                <!-- CATEGORIA: AUTOMÓVEIS -->
+                <article class="card cat-automoveis">
+                    <div class="card-header">
+                        <img src="https://images.unsplash.com/photo-1486006920555-c77dce18193b?w=120" alt="Auto Center Imperial" class="card-img" onerror="this.src='https://placehold.co/100x100/2563eb/ffffff?text=Mecanica'">
+                        <div class="card-header-text">
+                            <h3 class="card-title">Auto Center Imperial</h3>
+                            <span class="card-badge">Automóveis</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-desc">Mecânica geral, alinhamento, balanceamento, troca de óleo e diagnóstico computadorizado.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-location"><i class="fa-solid fa-location-dot"></i> Distrito Industrial</span>
+                        <a href="#modal-auto-imperial" class="card-btn">Ver Anúncio <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </article>
 
-                        <button>Clinicas médicas</button>
-                        <button>Dentistas</button>
-                        <button>Farmácias</button>
-                        <button>Psicólogos</button>
-                        <button>Academias</button>
-                    </details>
+                <article class="card cat-automoveis">
+                    <div class="card-header">
+                        <img src="https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?w=120" alt="Lava Rápido EcoShine" class="card-img" onerror="this.src='https://placehold.co/100x100/2563eb/ffffff?text=LavaRápido'">
+                        <div class="card-header-text">
+                            <h3 class="card-title">Lava Rápido EcoShine</h3>
+                            <span class="card-badge">Automóveis</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-desc">Lavagem ecológica a seco, higienização interna de estofados, polimento e vitrificação de pintura.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-location"><i class="fa-solid fa-location-dot"></i> Centro</span>
+                        <a href="#modal-ecoshine" class="card-btn">Ver Anúncio <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </article>
 
-                    <details>
-                        <summary>Beleza e Estética</summary>
+                <article class="card cat-automoveis">
+                    <div class="card-header">
+                        <img src="https://images.unsplash.com/photo-1578844251758-2f71da64c96f?w=120" alt="Pneus & Cia" class="card-img" onerror="this.src='https://placehold.co/100x100/2563eb/ffffff?text=Pneus'">
+                        <div class="card-header-text">
+                            <h3 class="card-title">Pneus & Cia</h3>
+                            <span class="card-badge">Automóveis</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-desc">Venda de pneus multimarcas, montagem, cambagem, desempeno de rodas e suspensão completa.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-location"><i class="fa-solid fa-location-dot"></i> Av. das Américas</span>
+                        <a href="#modal-pneus-cia" class="card-btn">Ver Anúncio <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </article>
 
-                        <button>Salões de beleza</button>
-                        <button>Barbearias</button>
-                        <button>Clínicas de estética</button>
-                        <button>Manicures</button>
-                    </details>
+                <article class="card cat-automoveis">
+                    <div class="card-header">
+                        <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=120" alt="Funilaria Express" class="card-img" onerror="this.src='https://placehold.co/100x100/2563eb/ffffff?text=Funilaria'">
+                        <div class="card-header-text">
+                            <h3 class="card-title">Funilaria & Pintura Express</h3>
+                            <span class="card-badge">Automóveis</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-desc">Reparos rápidos de funilaria, martelinho de ouro, restauração de parachoques e pintura estufa.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-location"><i class="fa-solid fa-location-dot"></i> São Cristóvão</span>
+                        <a href="#modal-funilaria-express" class="card-btn">Ver Anúncio <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </article>
 
-                    <details>
-                        <summary>Serviços Domésticos</summary>
+                <article class="card cat-automoveis">
+                    <div class="card-header">
+                        <img src="https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=120" alt="Auto Elétrica Spark" class="card-img" onerror="this.src='https://placehold.co/100x100/2563eb/ffffff?text=Elétrica'">
+                        <div class="card-header-text">
+                            <h3 class="card-title">Auto Elétrica Spark</h3>
+                            <span class="card-badge">Automóveis</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-desc">Manutenção de alternadores, motores de partida, baterias, ar-condicionado e instalação de som.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-location"><i class="fa-solid fa-location-dot"></i> Bairro Cancelli</span>
+                        <a href="#modal-eletrica-spark" class="card-btn">Ver Anúncio <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </article>
 
-                        <button>Encanadores</button>
-                        <button>Eletricistas</button>
-                        <button>Pintores</button>
-                        <button>Diaristas</button>
-                    </details>
+                <!-- CATEGORIA: BELEZA E ESTÉTICA -->
+                <article class="card cat-beleza">
+                    <div class="card-header">
+                        <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=120" alt="Espaço Bella Vita" class="card-img" onerror="this.src='https://placehold.co/100x100/2563eb/ffffff?text=Estética'">
+                        <div class="card-header-text">
+                            <h3 class="card-title">Espaço Bella Vita</h3>
+                            <span class="card-badge">Beleza & Estética</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-desc">Cabelo, maquiagem social e noivas, limpeza de pele profunda e tratamentos corporais.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-location"><i class="fa-solid fa-location-dot"></i> Jardins</span>
+                        <a href="#modal-bella-vita" class="card-btn">Ver Anúncio <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </article>
 
-                    <details>
-                        <summary>automotivo</summary>
+                <article class="card cat-beleza">
+                    <div class="card-header">
+                        <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=120" alt="Barbearia Vintage" class="card-img" onerror="this.src='https://placehold.co/100x100/2563eb/ffffff?text=Barbearia'">
+                        <div class="card-header-text">
+                            <h3 class="card-title">Barbearia Vintage Club</h3>
+                            <span class="card-badge">Beleza & Estética</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-desc">Cortes masculinos modernos, barba com toalha quente, pigmentação e ambiente exclusivo.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-location"><i class="fa-solid fa-location-dot"></i> Centro</span>
+                        <a href="#modal-barbearia-vintage" class="card-btn">Ver Anúncio <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </article>
 
-                        <button>Oficinas mecânicas</button>
-                        <button>Lava-rápidos</button>
-                        <button>Borracharias</button>
-                        <button>Concessionárias</button>
-                    </details>
+                <article class="card cat-beleza">
+                    <div class="card-header">
+                        <img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=120" alt="Studio Esmalteria Real" class="card-img" onerror="this.src='https://placehold.co/100x100/2563eb/ffffff?text=Unhas'">
+                        <div class="card-header-text">
+                            <h3 class="card-title">Studio Esmalteria Real</h3>
+                            <span class="card-badge">Beleza & Estética</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-desc">Manicure, pedicure, banho de gel, fibra de vidro, nail art e spa dos pés relaxante.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-location"><i class="fa-solid fa-location-dot"></i> Vila Industrial</span>
+                        <a href="#modal-esmalteria-real" class="card-btn">Ver Anúncio <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </article>
 
-                </details>
+                <article class="card cat-beleza">
+                    <div class="card-header">
+                        <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=120" alt="Clínica Renovare Estética" class="card-img" onerror="this.src='https://placehold.co/100x100/2563eb/ffffff?text=Clínica'">
+                        <div class="card-header-text">
+                            <h3 class="card-title">Clínica Renovare Estética</h3>
+                            <span class="card-badge">Beleza & Estética</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-desc">Depilação a laser, harmonização facial, drenagem linfática, microagulhamento e Botox.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-location"><i class="fa-solid fa-location-dot"></i> Parque Verde</span>
+                        <a href="#modal-renovare-estetica" class="card-btn">Ver Anúncio <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </article>
 
-                <details>
-                    <summary>Negócios e Educação</summary>
-                    
-                    <details>
-                        <summary>Serviços Corporativos</summary>
+                <article class="card cat-beleza">
+                    <div class="card-header">
+                        <img src="https://images.unsplash.com/photo-1512290900673-700249797352?w=120" alt="Studio Cílios & Sobrancelhas" class="card-img" onerror="this.src='https://placehold.co/100x100/2563eb/ffffff?text=Olhar'">
+                        <div class="card-header-text">
+                            <h3 class="card-title">Studio Cílios & Sobrancelhas</h3>
+                            <span class="card-badge">Beleza & Estética</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-desc">Extensão de cílios volume russo, design de sobrancelhas com henna e micropigmentação labial.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-location"><i class="fa-solid fa-location-dot"></i> Bairro Tropical</span>
+                        <a href="#modal-studio-cilios" class="card-btn">Ver Anúncio <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </article>
 
-                        <button>Contabilidade</button>
-                        <button>Advocacia</button>
-                        <button>Agências de marketing</button>
-                        <button>Gráficas</button>
-                    </details>
+                <!-- CATEGORIA: CONSTRUÇÃO -->
+                <article class="card cat-construcao">
+                    <div class="card-header">
+                        <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=120" alt="Construtora Valor" class="card-img" onerror="this.src='https://placehold.co/100x100/2563eb/ffffff?text=Obra'">
+                        <div class="card-header-text">
+                            <h3 class="card-title">Construtora Valor</h3>
+                            <span class="card-badge">Construção</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-desc">Projetos arquitetônicos, engenharia civil, reformas residenciais e comerciais completas.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-location"><i class="fa-solid fa-location-dot"></i> Centro</span>
+                        <a href="#modal-construtora-valor" class="card-btn">Ver Anúncio <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </article>
 
-                    <details>
-                        <summary>Educação e Treinamento</summary>
+                <article class="card cat-construcao">
+                    <div class="card-header">
+                        <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=120" alt="Depositão Materiais de Construção" class="card-img" onerror="this.src='https://placehold.co/100x100/2563eb/ffffff?text=Materiais'">
+                        <div class="card-header-text">
+                            <h3 class="card-title">Depositão da Construção</h3>
+                            <span class="card-badge">Construção</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-desc">Do básico ao acabamento: cimento, tijolos, tintas, tubos, conexões e ferramentas com entrega rápida.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-location"><i class="fa-solid fa-location-dot"></i> Bairro Neva</span>
+                        <a href="#modal-depositao-construcao" class="card-btn">Ver Anúncio <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </article>
 
-                        <button>Escolas particulares</button>
-                        <button>Cursos de idiomas</button>
-                        <button>Reforço escolar</button>
-                        <button>Creches</button>
-                    </details>
+                <article class="card cat-construcao">
+                    <div class="card-header">
+                        <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=120" alt="EletroVolt Instalações" class="card-img" onerror="this.src='https://placehold.co/100x100/2563eb/ffffff?text=Eletrica'">
+                        <div class="card-header-text">
+                            <h3 class="card-title">EletroVolt Elétrica & Energia</h3>
+                            <span class="card-badge">Construção</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-desc">Serviços de eletricista predial e industrial, instalação de painéis solares e quadros de força.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-location"><i class="fa-solid fa-location-dot"></i> Bairro Coqueiral</span>
+                        <a href="#modal-eletrovolt" class="card-btn">Ver Anúncio <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </article>
 
-                    <details>
-                        <summary>Eventos e Festas</summary>
+                <article class="card cat-construcao">
+                    <div class="card-header">
+                        <img src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=120" alt="Marmoraria Requinte" class="card-img" onerror="this.src='https://placehold.co/100x100/2563eb/ffffff?text=Marmoraria'">
+                        <div class="card-header-text">
+                            <h3 class="card-title">Marmoraria Requinte</h3>
+                            <span class="card-badge">Construção</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-desc">Bancadas de cozinha, pias para banheiro, escadas e soleiras em granito, mármore e quartzo.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-location"><i class="fa-solid fa-location-dot"></i> Distrito Industrial</span>
+                        <a href="#modal-marmoraria-requinte" class="card-btn">Ver Anúncio <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </article>
 
-                        <button>Buffets</button>
-                        <button>Fotógrafos</button>
-                        <button>Aluguel de espaço</button>
-                        <button>Decoradores</button>
-                    </details>
+                <article class="card cat-construcao">
+                    <div class="card-header">
+                        <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?w=120" alt="Vidraçaria Transparência" class="card-img" onerror="this.src='https://placehold.co/100x100/2563eb/ffffff?text=Vidros'">
+                        <div class="card-header-text">
+                            <h3 class="card-title">Vidraçaria Transparência</h3>
+                            <span class="card-badge">Construção</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-desc">Box de vidro temperado, espelhos sob medida, janelas, portas de alumínio e guarda-corpos.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-location"><i class="fa-solid fa-location-dot"></i> Bairro FAG</span>
+                        <a href="#modal-vidracaria-transparencia" class="card-btn">Ver Anúncio <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </article>
 
-                </details>
+                <!-- CATEGORIA: ELETRÔNICOS & INFORMÁTICA -->
+                <article class="card cat-eletronicos">
+                    <div class="card-header">
+                        <img src="https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=120" alt="TechFix Informática" class="card-img" onerror="this.src='https://placehold.co/100x100/2563eb/ffffff?text=Tech'">
+                        <div class="card-header-text">
+                            <h3 class="card-title">TechFix Informática</h3>
+                            <span class="card-badge">Eletrônicos</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-desc">Manutenção de notebooks, computadores gamers, formatação, troca de tela e limpeza.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-location"><i class="fa-solid fa-location-dot"></i> Galeria Central</span>
+                        <a href="#modal-techfix" class="card-btn">Ver Anúncio <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </article>
 
-                <details>
-                    <summary>Outros Segmentos Relevantes</summary>
-                    
-                    <details>
-                        <summary>Pet Shop</summary>
+                <article class="card cat-eletronicos">
+                    <div class="card-header">
+                        <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=120" alt="CellPhone Doctor" class="card-img" onerror="this.src='https://placehold.co/100x100/2563eb/ffffff?text=Celular'">
+                        <div class="card-header-text">
+                            <h3 class="card-title">CellPhone Doctor</h3>
+                            <span class="card-badge">Eletrônicos</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-desc">Conserto de smartphones, troca de vidro e bateria, capas, películas e acessórios originais.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-location"><i class="fa-solid fa-location-dot"></i> Centro</span>
+                        <a href="#modal-cellphone-doctor" class="card-btn">Ver Anúncio <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </article>
 
-                        <button>Clínicas veterinárias</button>
-                        <button>banho e tosa</button>
-                        <button>Lojas de ração</button>
-                    </details>
+                <article class="card cat-eletronicos">
+                    <div class="card-header">
+                        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=120" alt="GamerZone Store" class="card-img" onerror="this.src='https://placehold.co/100x100/2563eb/ffffff?text=Gamer'">
+                        <div class="card-header-text">
+                            <h3 class="card-title">GamerZone Store</h3>
+                            <span class="card-badge">Eletrônicos</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-desc">Venda de consoles, jogos novos e usados, cadeiras gamers, periféricos RGB e assistência técnica.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-location"><i class="fa-solid fa-location-dot"></i> Shopping Plaza</span>
+                        <a href="#modal-gamerzone" class="card-btn">Ver Anúncio <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </article>
 
-                    <details>
-                        <summary>Turismo e Lazer</summary>
+                <article class="card cat-eletronicos">
+                    <div class="card-header">
+                        <img src="https://images.unsplash.com/photo-1558002038-1055907df827?w=120" alt="Seguritech Câmeras" class="card-img" onerror="this.src='https://placehold.co/100x100/2563eb/ffffff?text=Câmeras'">
+                        <div class="card-header-text">
+                            <h3 class="card-title">Seguritech Câmeras & Alarmes</h3>
+                            <span class="card-badge">Eletrônicos</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-desc">Instalação de câmeras CFTV Wi-Fi, sensores de presença, portões eletrônicos e fechaduras digitais.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-location"><i class="fa-solid fa-location-dot"></i> Bairro Maria Luiza</span>
+                        <a href="#modal-seguritech" class="card-btn">Ver Anúncio <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </article>
 
-                        <button>Hotéis</button>
-                        <button>Pousadas</button>
-                        <button>Agências de viagens</button>
-                        <button>Pontos de entretenimento local</button>
-                    </details>
+                <article class="card cat-eletronicos">
+                    <div class="card-header">
+                        <img src="https://images.unsplash.com/photo-1545454675-3531b543be5d?w=120" alt="Som & Imagem Home Theater" class="card-img" onerror="this.src='https://placehold.co/100x100/2563eb/ffffff?text=Som'">
+                        <div class="card-header-text">
+                            <h3 class="card-title">Som & Imagem Pro</h3>
+                            <span class="card-badge">Eletrônicos</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-desc">Instalação e automação de home theater, caixas de som de embutir, projetores e Smart TVs.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-location"><i class="fa-solid fa-location-dot"></i> Bairro Country</span>
+                        <a href="#modal-som-imagem-pro" class="card-btn">Ver Anúncio <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </article>
 
-                </details>
+            </div>
+        </main>
 
-            </aside>
-
-            <main>
-                <!--aqui vai vir as cards-->
-            </main>
-
+        <!-- MODAIS INDIVIDUAIS DOS ANUNCIANTES -->
+        <div class="modal-overlay" id="modal-sabor-caseiro">
+            <div class="modal-card">
+                <a href="#anunciantes" class="modal-close">&times;</a>
+                <div class="modal-header-bg"></div>
+                <div class="modal-body">
+                    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=200" alt="Restaurante Sabor Caseiro" class="modal-avatar">
+                    <div class="modal-title-area">
+                        <h2 class="modal-title">Restaurante Sabor Caseiro</h2>
+                        <div class="modal-meta">
+                            <span class="modal-meta-item"><i class="fa-solid fa-tag"></i> Alimentação</span>
+                            <span class="modal-meta-item"><i class="fa-solid fa-location-dot"></i> Rua das Flores, 123 - Centro</span>
+                        </div>
+                    </div>
+                    <div class="modal-section">
+                        <h3 class="modal-section-title">Sobre a Empresa</h3>
+                        <p>O Restaurante Sabor Caseiro traz há mais de 12 anos o melhor da culinária tradicional brasileira para a sua mesa.</p>
+                    </div>
+                    <div class="modal-actions">
+                        <a href="https://wa.me/5545999999999" target="_blank" class="btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> Pedir pelo WhatsApp</a>
+                        <a href="#anunciantes" class="btn-outline">Voltar</a>
+                    </div>
+                </div>
+            </div>
         </div>
 
-    </body>
+        <div class="modal-overlay" id="modal-bella-pizza">
+            <div class="modal-card">
+                <a href="#anunciantes" class="modal-close">&times;</a>
+                <div class="modal-header-bg"></div>
+                <div class="modal-body">
+                    <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=200" alt="Bella Pizza" class="modal-avatar">
+                    <div class="modal-title-area">
+                        <h2 class="modal-title">Bella Pizza Artesanal</h2>
+                        <div class="modal-meta"><span class="modal-meta-item"><i class="fa-solid fa-tag"></i> Alimentação</span></div>
+                    </div>
+                    <div class="modal-section">
+                        <p>Pizzas com longa fermentação de 48 horas, massa leve, crocante e ingredientes italianos selecionados.</p>
+                    </div>
+                    <div class="modal-actions">
+                        <a href="https://wa.me/5545999999999" target="_blank" class="btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> Fazer Pedido</a>
+                        <a href="#anunciantes" class="btn-outline">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <div class="modal-overlay" id="modal-burger-prime">
+            <div class="modal-card">
+                <a href="#anunciantes" class="modal-close">&times;</a>
+                <div class="modal-header-bg"></div>
+                <div class="modal-body">
+                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=200" alt="Burger Prime" class="modal-avatar">
+                    <div class="modal-title-area">
+                        <h2 class="modal-title">Burger Prime Grill</h2>
+                        <div class="modal-meta"><span class="modal-meta-item"><i class="fa-solid fa-tag"></i> Alimentação</span></div>
+                    </div>
+                    <div class="modal-section">
+                        <p>Hambúrgueres artesanais de carne 100% Angus preparados na grelha, acompanhados de porções generosas e milk-shakes.</p>
+                    </div>
+                    <div class="modal-actions">
+                        <a href="https://wa.me/5545999999999" target="_blank" class="btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> Ver Cardápio</a>
+                        <a href="#anunciantes" class="btn-outline">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="modal-sakura-sushi">
+            <div class="modal-card">
+                <a href="#anunciantes" class="modal-close">&times;</a>
+                <div class="modal-header-bg"></div>
+                <div class="modal-body">
+                    <img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=200" alt="Sakura Sushi" class="modal-avatar">
+                    <div class="modal-title-area">
+                        <h2 class="modal-title">Sakura Sushi Bar</h2>
+                        <div class="modal-meta"><span class="modal-meta-item"><i class="fa-solid fa-tag"></i> Alimentação</span></div>
+                    </div>
+                    <div class="modal-section">
+                        <p>Especializado na verdadeira gastronomia oriental, oferecendo peixes frescos e variados todos os dias em ambiente climatizado.</p>
+                    </div>
+                    <div class="modal-actions">
+                        <a href="https://wa.me/5545999999999" target="_blank" class="btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> Reservar Mesa</a>
+                        <a href="#anunciantes" class="btn-outline">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="modal-pao-doro">
+            <div class="modal-card">
+                <a href="#anunciantes" class="modal-close">&times;</a>
+                <div class="modal-header-bg"></div>
+                <div class="modal-body">
+                    <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=200" alt="Padaria Pão D'Oro" class="modal-avatar">
+                    <div class="modal-title-area">
+                        <h2 class="modal-title">Padaria Pão D'Oro</h2>
+                        <div class="modal-meta"><span class="modal-meta-item"><i class="fa-solid fa-tag"></i> Alimentação</span></div>
+                    </div>
+                    <div class="modal-section">
+                        <p>Tradição em pães especiais, confeitaria fina e salgados. Atendemos também encomendas de bolos para festas e eventos.</p>
+                    </div>
+                    <div class="modal-actions">
+                        <a href="https://wa.me/5545999999999" target="_blank" class="btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> Encomendar</a>
+                        <a href="#anunciantes" class="btn-outline">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="modal-auto-imperial">
+            <div class="modal-card">
+                <a href="#anunciantes" class="modal-close">&times;</a>
+                <div class="modal-header-bg"></div>
+                <div class="modal-body">
+                    <img src="https://images.unsplash.com/photo-1486006920555-c77dce18193b?w=200" alt="Auto Center" class="modal-avatar">
+                    <div class="modal-title-area"><h2 class="modal-title">Auto Center Imperial</h2></div>
+                    <div class="modal-section"><p>Oficina completa especializada em injeção eletrônica, freios ABS, suspensão e revisão preventiva.</p></div>
+                    <div class="modal-actions">
+                        <a href="https://wa.me/5545999999999" target="_blank" class="btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> Orçamento</a>
+                        <a href="#anunciantes" class="btn-outline">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="modal-ecoshine">
+            <div class="modal-card">
+                <a href="#anunciantes" class="modal-close">&times;</a>
+                <div class="modal-header-bg"></div>
+                <div class="modal-body">
+                    <img src="https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?w=200" alt="EcoShine" class="modal-avatar">
+                    <div class="modal-title-area"><h2 class="modal-title">Lava Rápido EcoShine</h2></div>
+                    <div class="modal-section"><p>Estética automotiva focada em sustentabilidade com produtos biodegradáveis, higienização interna e cera de carnaúba.</p></div>
+                    <div class="modal-actions">
+                        <a href="https://wa.me/5545999999999" target="_blank" class="btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> Agendar Lavagem</a>
+                        <a href="#anunciantes" class="btn-outline">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="modal-pneus-cia">
+            <div class="modal-card">
+                <a href="#anunciantes" class="modal-close">&times;</a>
+                <div class="modal-header-bg"></div>
+                <div class="modal-body">
+                    <img src="https://images.unsplash.com/photo-1578844251758-2f71da64c96f?w=200" alt="Pneus Cia" class="modal-avatar">
+                    <div class="modal-title-area"><h2 class="modal-title">Pneus & Cia</h2></div>
+                    <div class="modal-section"><p>O maior estoque de pneus da cidade com alinhamento 3D e balanceamento computadorizado com garantia.</p></div>
+                    <div class="modal-actions">
+                        <a href="https://wa.me/5545999999999" target="_blank" class="btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> Consultar Pneus</a>
+                        <a href="#anunciantes" class="btn-outline">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="modal-funilaria-express">
+            <div class="modal-card">
+                <a href="#anunciantes" class="modal-close">&times;</a>
+                <div class="modal-header-bg"></div>
+                <div class="modal-body">
+                    <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=200" alt="Funilaria Express" class="modal-avatar">
+                    <div class="modal-title-area"><h2 class="modal-title">Funilaria & Pintura Express</h2></div>
+                    <div class="modal-section"><p>Recuperação de veículos batidos, polimento técnico e eliminação de amassados sem danificar a pintura original.</p></div>
+                    <div class="modal-actions">
+                        <a href="https://wa.me/5545999999999" target="_blank" class="btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> Enviar Foto/Orçamento</a>
+                        <a href="#anunciantes" class="btn-outline">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="modal-eletrica-spark">
+            <div class="modal-card">
+                <a href="#anunciantes" class="modal-close">&times;</a>
+                <div class="modal-header-bg"></div>
+                <div class="modal-body">
+                    <img src="https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=200" alt="Auto Elétrica Spark" class="modal-avatar">
+                    <div class="modal-title-area"><h2 class="modal-title">Auto Elétrica Spark</h2></div>
+                    <div class="modal-section"><p>Soluções em parte elétrica automotiva, socorro para baterias arriadas e manutenção em vidros e travas elétricas.</p></div>
+                    <div class="modal-actions">
+                        <a href="https://wa.me/5545999999999" target="_blank" class="btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> Chamar Socorro</a>
+                        <a href="#anunciantes" class="btn-outline">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="modal-bella-vita">
+            <div class="modal-card">
+                <a href="#anunciantes" class="modal-close">&times;</a>
+                <div class="modal-header-bg"></div>
+                <div class="modal-body">
+                    <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=200" alt="Bella Vita" class="modal-avatar">
+                    <div class="modal-title-area"><h2 class="modal-title">Espaço Bella Vita</h2></div>
+                    <div class="modal-section"><p>Salão de beleza e estética completa para cuidados faciais, capilares e corporais.</p></div>
+                    <div class="modal-actions">
+                        <a href="https://wa.me/5545999999999" target="_blank" class="btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> Agendar</a>
+                        <a href="#anunciantes" class="btn-outline">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="modal-barbearia-vintage">
+            <div class="modal-card">
+                <a href="#anunciantes" class="modal-close">&times;</a>
+                <div class="modal-header-bg"></div>
+                <div class="modal-body">
+                    <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=200" alt="Barbearia Vintage" class="modal-avatar">
+                    <div class="modal-title-area"><h2 class="modal-title">Barbearia Vintage Club</h2></div>
+                    <div class="modal-section"><p>Barbearia clássica com conceito moderno. Atendimento com bebidas geladas, sinuca e profisionais especialistas.</p></div>
+                    <div class="modal-actions">
+                        <a href="https://wa.me/5545999999999" target="_blank" class="btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> Marcar Horário</a>
+                        <a href="#anunciantes" class="btn-outline">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="modal-esmalteria-real">
+            <div class="modal-card">
+                <a href="#anunciantes" class="modal-close">&times;</a>
+                <div class="modal-header-bg"></div>
+                <div class="modal-body">
+                    <img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=200" alt="Esmalteria Real" class="modal-avatar">
+                    <div class="modal-title-area"><h2 class="modal-title">Studio Esmalteria Real</h2></div>
+                    <div class="modal-section"><p>Especialistas em alongamento em fibra de vidro, blindagem de unhas e spa com hidratação profunda.</p></div>
+                    <div class="modal-actions">
+                        <a href="https://wa.me/5545999999999" target="_blank" class="btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> Agendar Unhas</a>
+                        <a href="#anunciantes" class="btn-outline">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="modal-renovare-estetica">
+            <div class="modal-card">
+                <a href="#anunciantes" class="modal-close">&times;</a>
+                <div class="modal-header-bg"></div>
+                <div class="modal-body">
+                    <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=200" alt="Renovare Estética" class="modal-avatar">
+                    <div class="modal-title-area"><h2 class="modal-title">Clínica Renovare Estética</h2></div>
+                    <div class="modal-section"><p>Tecnologias de ponta para estética facial e corporal com acompanhamento profissional qualificado.</p></div>
+                    <div class="modal-actions">
+                        <a href="https://wa.me/5545999999999" target="_blank" class="btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> Avaliação Grátis</a>
+                        <a href="#anunciantes" class="btn-outline">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="modal-studio-cilios">
+            <div class="modal-card">
+                <a href="#anunciantes" class="modal-close">&times;</a>
+                <div class="modal-header-bg"></div>
+                <div class="modal-body">
+                    <img src="https://images.unsplash.com/photo-1512290900673-700249797352?w=200" alt="Studio Cílios" class="modal-avatar">
+                    <div class="modal-title-area"><h2 class="modal-title">Studio Cílios & Sobrancelhas</h2></div>
+                    <div class="modal-section"><p>Realçando a beleza do seu olhar com procedimentos seguros, duradouros e personalizados.</p></div>
+                    <div class="modal-actions">
+                        <a href="https://wa.me/5545999999999" target="_blank" class="btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> Consultar Horários</a>
+                        <a href="#anunciantes" class="btn-outline">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="modal-construtora-valor">
+            <div class="modal-card">
+                <a href="#anunciantes" class="modal-close">&times;</a>
+                <div class="modal-header-bg"></div>
+                <div class="modal-body">
+                    <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=200" alt="Construtora" class="modal-avatar">
+                    <div class="modal-title-area"><h2 class="modal-title">Construtora Valor</h2></div>
+                    <div class="modal-section"><p>Execução completa de projetos arquitetônicos e reformas residenciais e comerciais.</p></div>
+                    <div class="modal-actions">
+                        <a href="https://wa.me/5545999999999" target="_blank" class="btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> Contato</a>
+                        <a href="#anunciantes" class="btn-outline">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="modal-depositao-construcao">
+            <div class="modal-card">
+                <a href="#anunciantes" class="modal-close">&times;</a>
+                <div class="modal-header-bg"></div>
+                <div class="modal-body">
+                    <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=200" alt="Depositão da Construção" class="modal-avatar">
+                    <div class="modal-title-area"><h2 class="modal-title">Depositão da Construção</h2></div>
+                    <div class="modal-section"><p>Tudo para sua obra com os melhores preços da região e facilidade no pagamento em até 12x.</p></div>
+                    <div class="modal-actions">
+                        <a href="https://wa.me/5545999999999" target="_blank" class="btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> Cotação de Materiais</a>
+                        <a href="#anunciantes" class="btn-outline">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="modal-eletrovolt">
+            <div class="modal-card">
+                <a href="#anunciantes" class="modal-close">&times;</a>
+                <div class="modal-header-bg"></div>
+                <div class="modal-body">
+                    <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=200" alt="EletroVolt" class="modal-avatar">
+                    <div class="modal-title-area"><h2 class="modal-title">EletroVolt Elétrica & Energia</h2></div>
+                    <div class="modal-section"><p>Projetos elétricos completos, laudos técnicos e instalação de usinas solares fotovoltaicas.</p></div>
+                    <div class="modal-actions">
+                        <a href="https://wa.me/5545999999999" target="_blank" class="btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> Falar com Eletricista</a>
+                        <a href="#anunciantes" class="btn-outline">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="modal-marmoraria-requinte">
+            <div class="modal-card">
+                <a href="#anunciantes" class="modal-close">&times;</a>
+                <div class="modal-header-bg"></div>
+                <div class="modal-body">
+                    <img src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=200" alt="Marmoraria Requinte" class="modal-avatar">
+                    <div class="modal-title-area"><h2 class="modal-title">Marmoraria Requinte</h2></div>
+                    <div class="modal-section"><p>Corte preciso e acabamento impecável em rochas ornamentais para cozinhas, banheiros e fachadas.</p></div>
+                    <div class="modal-actions">
+                        <a href="https://wa.me/5545999999999" target="_blank" class="btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> Solicitar Medição</a>
+                        <a href="#anunciantes" class="btn-outline">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="modal-vidracaria-transparencia">
+            <div class="modal-card">
+                <a href="#anunciantes" class="modal-close">&times;</a>
+                <div class="modal-header-bg"></div>
+                <div class="modal-body">
+                    <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?w=200" alt="Vidraçaria Transparência" class="modal-avatar">
+                    <div class="modal-title-area"><h2 class="modal-title">Vidraçaria Transparência</h2></div>
+                    <div class="modal-section"><p>Soluções modernas em vidros temperados, laminados e esquadrias de alumínio sob medida.</p></div>
+                    <div class="modal-actions">
+                        <a href="https://wa.me/5545999999999" target="_blank" class="btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> Pedir Orçamento</a>
+                        <a href="#anunciantes" class="btn-outline">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="modal-techfix">
+            <div class="modal-card">
+                <a href="#anunciantes" class="modal-close">&times;</a>
+                <div class="modal-header-bg"></div>
+                <div class="modal-body">
+                    <img src="https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=200" alt="TechFix" class="modal-avatar">
+                    <div class="modal-title-area"><h2 class="modal-title">TechFix Informática</h2></div>
+                    <div class="modal-section"><p>Assistência técnica especializada em notebooks, formatação, PCs Gamers e upgrades.</p></div>
+                    <div class="modal-actions">
+                        <a href="https://wa.me/5545999999999" target="_blank" class="btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> Suporte</a>
+                        <a href="#anunciantes" class="btn-outline">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="modal-cellphone-doctor">
+            <div class="modal-card">
+                <a href="#anunciantes" class="modal-close">&times;</a>
+                <div class="modal-header-bg"></div>
+                <div class="modal-body">
+                    <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=200" alt="CellPhone Doctor" class="modal-avatar">
+                    <div class="modal-title-area"><h2 class="modal-title">CellPhone Doctor</h2></div>
+                    <div class="modal-section"><p>Conserto rápido de celulares com peças de alta qualidade, troca de conector de carga e telas no mesmo dia.</p></div>
+                    <div class="modal-actions">
+                        <a href="https://wa.me/5545999999999" target="_blank" class="btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> Orçamento de Celular</a>
+                        <a href="#anunciantes" class="btn-outline">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="modal-gamerzone">
+            <div class="modal-card">
+                <a href="#anunciantes" class="modal-close">&times;</a>
+                <div class="modal-header-bg"></div>
+                <div class="modal-body">
+                    <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=200" alt="GamerZone" class="modal-avatar">
+                    <div class="modal-title-area"><h2 class="modal-title">GamerZone Store</h2></div>
+                    <div class="modal-section"><p>A loja definitiva para gamers com montagem personalizada de computadores de alta performance.</p></div>
+                    <div class="modal-actions">
+                        <a href="https://wa.me/5545999999999" target="_blank" class="btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> Falar com Atendente</a>
+                        <a href="#anunciantes" class="btn-outline">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="modal-seguritech">
+            <div class="modal-card">
+                <a href="#anunciantes" class="modal-close">&times;</a>
+                <div class="modal-header-bg"></div>
+                <div class="modal-body">
+                    <img src="https://images.unsplash.com/photo-1558002038-1055907df827?w=200" alt="Seguritech" class="modal-avatar">
+                    <div class="modal-title-area"><h2 class="modal-title">Seguritech Câmeras & Alarmes</h2></div>
+                    <div class="modal-section"><p>Proteja sua residência ou comércio com sistemas de monitoramento acessíveis pelo celular.</p></div>
+                    <div class="modal-actions">
+                        <a href="https://wa.me/5545999999999" target="_blank" class="btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> Visita Técnica</a>
+                        <a href="#anunciantes" class="btn-outline">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="modal-som-imagem-pro">
+            <div class="modal-card">
+                <a href="#anunciantes" class="modal-close">&times;</a>
+                <div class="modal-header-bg"></div>
+                <div class="modal-body">
+                    <img src="https://images.unsplash.com/photo-1545454675-3531b543be5d?w=200" alt="Som & Imagem Pro" class="modal-avatar">
+                    <div class="modal-title-area"><h2 class="modal-title">Som & Imagem Pro</h2></div>
+                    <div class="modal-section"><p>Projetos de som ambiente para estabelecimentos comerciais e salas de cinema residenciais completas.</p></div>
+                    <div class="modal-actions">
+                        <a href="https://wa.me/5545999999999" target="_blank" class="btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> Solicitar Projeto</a>
+                        <a href="#anunciantes" class="btn-outline">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ÁREA "ANUNCIE CONOSCO" -->
+        <section class="container" id="anuncie">
+            <div class="advertise-section">
+                <div class="advertise-info">
+                    <h2>Quer divulgar sua empresa aqui?</h2>
+                    <p>Junte-se a centenas de comércios e profissionais que diariamente conquistam novos clientes através da nossa vitrine digital.</p>
+
+                    <ul class="benefit-list">
+                        <li class="benefit-item"><i class="fa-solid fa-circle-check"></i> Anúncio com visual moderno e cativante</li>
+                        <li class="benefit-item"><i class="fa-solid fa-circle-check"></i> Página individual própria com fotos e dados</li>
+                        <li class="benefit-item"><i class="fa-solid fa-circle-check"></i> Botão direto para o seu WhatsApp corporativo</li>
+                    </ul>
+                </div>
+
+                <div class="ad-form">
+                    <form action="#inicio" method="get">
+                        <div class="form-group">
+                            <label class="form-label" for="nome">Seu Nome *</label>
+                            <input type="text" id="nome" name="nome" class="form-control" placeholder="Ex: Carlos Silva" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="empresa">Nome da Empresa *</label>
+                            <input type="text" id="empresa" name="empresa" class="form-control" placeholder="Ex: Mercado Central" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="whatsapp">Telefone / WhatsApp *</label>
+                            <input type="tel" id="whatsapp" name="whatsapp" class="form-control" placeholder="(00) 90000-0000" required>
+                        </div>
+
+                        <button type="submit" class="btn-submit">
+                            <i class="fa-solid fa-paper-plane"></i> Quero Anunciar Minha Empresa
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- RODAPÉ -->
+        <footer id="contato">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#inicio" class="logo" style="color:#ffffff;">
+                        <div class="logo-icon">
+                            <i class="fa-solid fa-store"></i>
+                        </div>
+                        <span>VitrineDigital</span>
+                    </a>
+                    <p>O maior portal de anúncios e vitrine digital de comércios e prestadores de serviços locais da região.</p>
+                </div>
+
+                <div>
+                    <h4 class="footer-title">Navegação</h4>
+                    <ul class="footer-links">
+                        <li><a href="#inicio">Início</a></li>
+                        <li><a href="#categorias">Categorias</a></li>
+                        <li><a href="#anunciantes">Anunciantes</a></li>
+                        <li><a href="#anuncie">Anuncie Conosco</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="footer-title">Atendimento</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://wa.me/5545999999999" target="_blank"><i class="fa-brands fa-whatsapp"></i> (45) 99999-9999</a></li>
+                        <li><a href="mailto:contato@vitrinedigital.com.br"><i class="fa-solid fa-envelope"></i> contato@vitrinedigital.com.br</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 VitrineDigital - Todos os direitos reservados. Projeto desenvolvido 100% em Front-End com HTML5, CSS3 e JavaScript.</p>
+            </div>
+        </footer>
+
+        <!-- ==========================================================================
+           JAVASCRIPT DO FRONT-END (Filtro Dinâmico de Categorias)
+           ========================================================================== -->
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                // Seleciona todos os botões de filtro (pills) e todos os cards de anúncios
+                const filterButtons = document.querySelectorAll('.category-pills .pill-label');
+                const adCards = document.querySelectorAll('.ads-grid .card');
+
+                // Itera sobre cada botão de categoria para escutar o evento de clique
+                filterButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        // Remove a classe 'active' de todos os botões de filtro
+                        filterButtons.forEach(btn => btn.classList.remove('active'));
+                        
+                        // Adiciona a classe 'active' apenas no botão que foi clicado
+                        button.classList.add('active');
+
+                        // Lê o valor do filtro a partir do atributo data-filter do botão
+                        const filterCategory = button.getAttribute('data-filter');
+
+                        // Avalia cada card de anúncio para decidir se deve exibi-lo ou ocultá-lo
+                        adCards.forEach(card => {
+                            // Se o filtro for 'all' ou se o card possuir a classe correspondente à categoria
+                            if (filterCategory === 'all' || card.classList.contains(filterCategory)) {
+                                card.style.display = 'flex';
+                                
+                                // Pequeno efeito visual de transição suave (fade-in e escala)
+                                card.style.opacity = '0';
+                                card.style.transform = 'translateY(10px)';
+                                setTimeout(() => {
+                                    card.style.opacity = '1';
+                                    card.style.transform = 'translateY(0)';
+                                }, 50);
+                            } else {
+                                // Oculta o card caso não pertença à categoria selecionada
+                                card.style.display = 'none';
+                            }
+                        });
+                    });
+                });
+            });
+        </script>
+    </body>
 </html>
