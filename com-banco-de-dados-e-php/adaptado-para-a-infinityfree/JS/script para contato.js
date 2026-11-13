@@ -10,7 +10,7 @@ function enviarParaWhatsApp(event) {
 
     var meuWhatsApp = "55459991115615"; 
 
-    // Monta a mensagem que chegará no seu WhatsApp
+    // Monta a mensagem que chegará no meu WhatsApp
     var texto = "Olá! Gostaria de anunciar minha empresa no VitrineDigital.%0A%0A" +
                 "*Nome:* " + encodeURIComponent(nome) + "%0A" +
                 "*Empresa:* " + encodeURIComponent(empresa) + "%0A" +
