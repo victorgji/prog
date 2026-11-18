@@ -1,7 +1,7 @@
 <?php
 $host = 'sql110.infinityfree.com';
 $usuario = 'if0_43348981';
-$senha = 'vic32552355';
+$senha = '';
 $banco = 'if0_43348981_vitrine_digital';
 
 try {
