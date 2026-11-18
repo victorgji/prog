@@ -1,8 +1,8 @@
 <?php
-$host = 'localhost';
-$usuario = 'root';
+$host = '';
+$usuario = '';
 $senha = '';
-$banco = 'vitrine_digital';
+$banco = '';
 
 try {
     $pdo = new PDO("mysql:host=$host; dbname=$banco; charset=utf8mb4", $usuario, $senha);

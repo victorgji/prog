@@ -1,8 +1,8 @@
 <?php
-$host = 'sql110.infinityfree.com';
-$usuario = 'if0_43348981';
+$host = '';
+$usuario = '';
 $senha = '';
-$banco = 'if0_43348981_vitrine_digital';
+$banco = '';
 
 try {
     $pdo = new PDO("mysql:host=$host; dbname=$banco; charset=utf8mb4", $usuario, $senha);
